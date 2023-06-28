@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { type Module as RMCModule } from 'redux-module-creator';
 
-export function useRMCUpdater<F extends () => any>(func: F, modules: RMCModule[]): ReturnType<F> {
+export function useRMCUpdater<F extends () => any>(func: F, modules: RMCModule[], extras: any[] = []): ReturnType<F> {
   const updateMarkers = modules.map(mdl => {
     const [updateMarker, setUpdateMarker] = useState(0);
 
@@ -14,5 +14,5 @@ export function useRMCUpdater<F extends () => any>(func: F, modules: RMCModule[]
     return updateMarker;
   });
 
-  return useMemo(func, [...updateMarkers]);
+  return useMemo(func, [func, ...updateMarkers, ...extras]);
 }
